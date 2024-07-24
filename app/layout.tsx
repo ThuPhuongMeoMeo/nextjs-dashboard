@@ -1,7 +1,9 @@
+
 import type { Metadata } from "next";
 import { lusitana } from '@/app/ui/fonts';
 import "./globals.css";
 import Link from "next/link";
+import MenuContextProvider from "@/context/MenuContext"
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,16 +19,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${lusitana.className}`}>
         <ul>
+          <li><Link href="/">Main</Link></li>
           <li><Link href="/Admin">admin</Link></li>
-          <li><Link href="/Customer">customet</Link></li>
+          <li><Link href="/Customer">customer</Link></li>
         </ul>
 
-        {children}
+        <MenuContextProvider chidren={children}></MenuContextProvider>
 
         <footer>hddhdh</footer>
-        <header>
-          header
-        </header>
 
       </body>
 
