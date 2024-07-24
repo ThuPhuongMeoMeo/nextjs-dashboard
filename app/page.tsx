@@ -7,7 +7,7 @@ import Header from "./Header/header";
 import Link from "next/link";
 import { MenuContext } from "@/context/MenuContext";
 
-const page = () => {
+const Page = () => {
   const {open, toggle} = useContext(MenuContext);
 
   return (
@@ -21,4 +21,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
