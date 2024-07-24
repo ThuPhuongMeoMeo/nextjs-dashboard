@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+#hihi{
+  background-color: rgb(8, 124, 124);
+}
+
