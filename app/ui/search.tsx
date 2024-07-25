@@ -1,8 +1,9 @@
 'use client';
 import { useDebouncedCallback } from 'use-debounce';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 export default function Search({ placeholder }: { placeholder: string }) {
+ 
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -10,11 +11,15 @@ export default function Search({ placeholder }: { placeholder: string }) {
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
     params.set('page', '1');
-    if (term) {
+    if(term)
+    {
+      //qure la cai bien search
       params.set('query', term);
-    } else {
+    } else
+    {
       params.delete('query');
     }
+    //ket giua pathname va params
     replace(`${pathname}?${params.toString()}`);
   }, 300);
 
@@ -35,3 +40,4 @@ export default function Search({ placeholder }: { placeholder: string }) {
     </div>
   );
 }
+
