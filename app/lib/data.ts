@@ -12,7 +12,7 @@ import {
 
 import { formatCurrency } from './utils';
 
-export async function fetchRevenue() {
+export async function fetchRevenue() {  
   // Add noStore() here prevent the response from being cached.
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
 
@@ -90,6 +90,7 @@ export async function fetchCardData() {
   }
 }
 
+//trả về tối đa 6 hóa đơn trên mỗi trang.
 const ITEMS_PER_PAGE = 6;
 export async function fetchFilteredInvoices(
   query: string,

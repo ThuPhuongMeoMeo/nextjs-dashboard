@@ -3,9 +3,8 @@ import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-// import { signIn } from '@/auth';
-// import { AuthError } from 'next-auth';
-
+import { signIn } from '@/auth';
+import AuthError from 'next-auth';
 
 
 const FormSchema = z.object({
@@ -38,8 +37,9 @@ export async function createInvoice(prevState: State, formData: FormData) {
   const validatedFields = CreateInvoice.safeParse({
     customerId: formData.get('customerId'),
     amount: formData.get('amount'),
-    status: formData.get('status'),
+    status: formData.get('status'), 
   });
+
 
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
@@ -69,6 +69,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
 
   // Revalidate the cache for the invoices page and redirect the user.
   revalidatePath('/dashboard/invoices');
+
   redirect('/dashboard/invoices');
 }
 
@@ -122,24 +123,19 @@ export async function deleteInvoice(id: string) {
 }
 
 export async function authenticate(
-  prevState: string | undefined,
-  formData: FormData,
-) {
-  try {
-  await signIn('credentials', formData);
-} catch (error) {
-    if (error instanceof Error) {
-        if (error.message === 'CredentialsSignin') {
+    prevState: string | undefined,
+    formData: FormData,
+  ) {
+    try {
+      await signIn('credentials', formData);
+    } catch (error) {
+      if (error instanceof Error) {
+        const errorMessage = error.message || 'Something went wrong.';
+        if (errorMessage.includes('CredentialsSignin')) {
           return 'Invalid credentials.';
-        } else {
-          return 'Something went wrong.';
         }
+        return errorMessage;
       }
-  throw error; 
-}
-
-}
-
-function signIn(arg0: string, formData: FormData) {
-    throw new Error('Function not implemented.');
-}
+      return 'An unknown error occurred.';
+    }
+  }
