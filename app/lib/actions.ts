@@ -122,17 +122,22 @@ export async function updateInvoice(id: string, formData: FormData) {
    
     const amountInCents = amount * 100;
    
+    try {
     await sql`
       UPDATE invoices
       SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
       WHERE id = ${id}
     `;
+  } catch (error) {
+    return { message: 'Database Error: Failed to Update Invoice.' };
+  }
    
     revalidatePath('/Dashboard/invoices');
     redirect('/Dashboard/invoices');
   }
 
-export async function deleteInvoice(id: string) {
+export async function deleteInvoice(id: string) {   
+  throw new Error('Failer to Delete Invoice');
   try {
     await sql`DELETE FROM invoices WHERE id = ${id}`;
     revalidatePath('/dashboard/invoices');
